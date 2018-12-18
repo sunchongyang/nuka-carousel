@@ -129,6 +129,7 @@ export const getFrameStyles = (
 
 export const getTransitionProps = (props, state) => {
   return {
+    frameWidth: state.frameWidth,
     slideWidth: state.slideWidth,
     slideHeight: state.slideHeight,
     slideCount: state.slideCount,

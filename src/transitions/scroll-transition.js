@@ -82,7 +82,13 @@ export default class ScrollTransition extends React.Component {
 
   getSlideStyles(index, positionValue) {
     const targetPosition = this.getSlideTargetPosition(index, positionValue);
+    var {deltaX,slideWidth,cellSpacing,frameWidth} = this.props;
+    var distanceToCurrent = Math.abs(targetPosition + deltaX - (frameWidth - slideWidth)/2.0);
+    var scale = this.props.vertical ? 1.0 : (1.0 - 0.08* (distanceToCurrent/(slideWidth + cellSpacing/2.0)));
+    scale = Math.min(scale,1.0);
+    scale = Math.max(scale,0.0);
     return {
+      transform: "scale(1.0,"+scale+")",
       position: 'absolute',
       left: this.props.vertical ? 0 : targetPosition,
       top: this.props.vertical ? targetPosition : 0,
@@ -147,6 +153,7 @@ export default class ScrollTransition extends React.Component {
 ScrollTransition.propTypes = {
   deltaX: PropTypes.number,
   deltaY: PropTypes.number,
+  frameWidth: PropTypes.number,
   slideWidth: PropTypes.number,
   slideHeight: PropTypes.number,
   slideCount: PropTypes.number,
@@ -163,6 +170,7 @@ ScrollTransition.propTypes = {
 ScrollTransition.defaultProps = {
   deltaX: 0,
   deltaY: 0,
+  frameWidth:0,
   slideWidth: 0,
   slideHeight: 0,
   slideCount: 0,
